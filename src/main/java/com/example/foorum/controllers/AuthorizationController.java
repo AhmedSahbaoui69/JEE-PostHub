@@ -15,19 +15,19 @@ public class AuthorizationController {
 
     private final UserService userService;
 
-    @GetMapping("/me")
+    @GetMapping("/userinfo")
     public ResponseEntity<UserDtoResponse> authenticatedUser() {
         var user = userService.getAuthenticatedUser();
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/me")
+    @PostMapping("/updateuser")
     public ResponseEntity<UserDtoResponse> updatedUserAuth(@RequestBody UpdateUserDetailsRequestDto dto) {
         var user = userService.updateUser(dto);
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("/me")
+    @DeleteMapping("/deleteuser")
     public ResponseEntity<Void> delete() {
         userService.delete();
         return ResponseEntity.noContent().build();

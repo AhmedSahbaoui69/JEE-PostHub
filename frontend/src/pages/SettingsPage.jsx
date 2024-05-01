@@ -25,17 +25,17 @@ function SettingsPage() {
         setErrors([]);
 
         if (!firstName && !lastName && !currentPassword && !newPassword && !confirmNewPassword && !profilePicture) {
-            setErrors(['You must fill out at least one field']);
+            setErrors([{type: 'failure', message: 'You must fill out at least one field'}]);
             return;
         }
 
         if ((currentPassword || newPassword || confirmNewPassword) && (!currentPassword || !newPassword || !confirmNewPassword)) {
-            setErrors(['All password fields must be filled.']);
+            setErrors([{type: 'failure', message: 'All password fields must be filled.'}]);
             return;
         }
 
         if (newPassword !== confirmNewPassword) {
-            setErrors(['Passwords do not match']);
+            setErrors([{type: 'failure', message: 'Passwords do not match'}]);
             return;
         }
 
@@ -63,7 +63,7 @@ function SettingsPage() {
 
         try {
             const token = localStorage.getItem('token'); // Retrieve the token from local storage
-            const response = await axios.post('http://localhost:8080/api/resource/me', data, {
+            const response = await axios.post('http://localhost:8080/api/resource/updateuser', data, {
                 headers: {
                     'Authorization': `Bearer ${token}`, // Add the token to the headers
                     'Content-Type': 'application/json'
@@ -82,9 +82,9 @@ function SettingsPage() {
         } catch (error) {
             // Display the error message from the backend
             if (error.response && error.response.data) {
-                setErrors([error.response.data.message]);
+                setErrors([{ type: 'failure', message: error.response.data.message}]);
             } else {
-                setErrors(['An error occurred while updating the user']);
+                setErrors([{ type: 'failure', message: 'An error occurred while updating the user' }]);
             }
         }
     };
@@ -94,7 +94,7 @@ function SettingsPage() {
         const maxFileSize = 1024 * 1024 * 2; // 2MB
 
         if (file.size > maxFileSize) {
-            setErrors(['File size exceeds the limit of 2MB']);
+            setErrors([{ type: 'failure', message: 'File size exceeds the limit of 2MB'}]);
             return;
         }
 
@@ -113,7 +113,7 @@ function SettingsPage() {
                 <title>Login - Settings</title>
             </Helmet>
             <Card title="Settings" className="w-full max-w-screen-md mx-auto z-10 animate-slide-in-bottom">
-                <form onSubmit={handleSubmit}>
+                <form autoComplete="off" onSubmit={handleSubmit}>
                     <Label>First Name:</Label>
                     <TextInput type="text" value={firstName} onChange={e => setFirstName(e.target.value)}/>
 
@@ -141,7 +141,7 @@ function SettingsPage() {
                 {errors.map((error, index) => (
                     <Alert
                         key={index}
-                        color={error.type === 'success' ? 'success' : 'failure'}
+                        color={error.type}
                         onDismiss={() => {
                             const newErrors = [...errors];
                             newErrors.splice(index, 1);
@@ -149,7 +149,7 @@ function SettingsPage() {
                         }}
                         className="animate-zoom-in min-w-[350px]"
                     >
-                        {error.message}
+                        {error.message || 'No message provided'}
                     </Alert>
                 ))}
             </div>

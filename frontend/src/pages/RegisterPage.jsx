@@ -50,7 +50,7 @@ function RegisterPage() {
                         <img src={welcomeImage} alt="Welcome"
                              className="mx-auto animate-iteration-count-infinite animate-spin-clockwise animate-duration-[10000ms]"/>
                     </div>
-                    <form onSubmit={handleSubmit} className="flex-grow md:w-1/2">
+                    <form onSubmit={handleSubmit} autoComplete="off" className="flex-grow md:w-1/2">
                         <Label>First Name:</Label>
                         <TextInput type="text" value={firstName} onChange={e => setFirstName(e.target.value)}/>
                         <Label>Last Name:</Label>

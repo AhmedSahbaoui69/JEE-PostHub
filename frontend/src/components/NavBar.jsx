@@ -15,7 +15,7 @@ function NavBar() {
         const checkAuthentication = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get('http://localhost:8080/api/resource/me', {
+                const response = await axios.get('http://localhost:8080/api/resource/userinfo', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (response.status === 200) {
@@ -40,7 +40,7 @@ function NavBar() {
     }, []);
     return (
         <Navbar fluid className="sticky top-0 z-50">
-            <Navbar.Brand href="https://flowbite-react.com">
+            <Navbar.Brand as={Link} to="/">
                 <img src={logo} className="h-6 sm:h-9" alt="Foo(rum); Logo" />
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Foo(rum);</span>
             </Navbar.Brand>
@@ -50,9 +50,6 @@ function NavBar() {
                 <Navbar.Toggle />
             </div>
             <Navbar.Collapse>
-                <Navbar.Link active={location.pathname === '/'} as={Link} to="/">Home</Navbar.Link>
-                <Navbar.Link active={location.pathname === '/login'} as={Link} to="/login" >Login</Navbar.Link>
-                <Navbar.Link active={location.pathname === '/register'} as={Link} to="/register" >Register</Navbar.Link>
                 <Flowbite>
                     {isMobileView && <DarkThemeToggle />}
                 </Flowbite>

@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
 
         User currentUser = (User) userAuth.getPrincipal();
 
-        if (dto.currentPassword() != null && !passwordEncoder.matches(dto.currentPassword(), currentUser.getPassword())) {
+        if (dto.currentPassword() != null && !dto.currentPassword().isEmpty() && !passwordEncoder.matches(dto.currentPassword(), currentUser.getPassword())) {
             throw new SpringFoorumException("Current password is incorrect.");
         }
 
