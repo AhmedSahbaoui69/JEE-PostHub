@@ -55,13 +55,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         } catch (BadCredentialsException e) {
             throw new SpringFoorumException("Invalid email or password");
         }
-        System.out.println("User authenticated");
         var user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new SpringFoorumException("Invalid email or password"));
 
-        System.out.println("User found");
         var jwt = jwtService.generateToken(user);
-        System.out.println("Token generated");
         return JwtAuthenticationResponse.builder()
                 .token(jwt)
                 .build();

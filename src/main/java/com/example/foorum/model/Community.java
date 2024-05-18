@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
@@ -24,7 +25,7 @@ public class Community {
     private String name;
     private String description;
     @OneToMany(fetch = LAZY)
-    private List<Post> posts;
+    private List<Post> posts = new ArrayList<>();
     private Instant createdDate;
     @ManyToOne(fetch = LAZY)
     private User user;

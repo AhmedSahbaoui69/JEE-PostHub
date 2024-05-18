@@ -1,41 +1,43 @@
-import React, { useState } from 'react';
-import { Card, Label, TextInput, Button, Alert } from 'flowbite-react';
+import React, {useContext, useState} from 'react';
+import {Card, Label, TextInput, Button, Alert, Breadcrumb} from 'flowbite-react';
 import ProfileImageInput from "../components/ProfileImageInput";
 import axios from 'axios';
 import {Helmet} from "react-helmet-async";
-
+import {UserContext} from "../App";
+import { RiSettings4Fill } from "react-icons/ri";
+import { FaSave } from "react-icons/fa";
 
 function SettingsPage() {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location='/login';
+    }
+    const { user, setUser } = useContext(UserContext);
+    const [firstName, setFirstName] = useState(user ? user.firstName : '');
+    const [lastName, setLastName] = useState(user ? user.lastName : '');
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
-    const [errors, setErrors] = useState([]); // Add this line
-
-    const token = localStorage.getItem('token');
-    if (!token) {
-        window.location='/login';
-    }
+    const [alerts, setAlerts] = useState([]); // Add this line
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setErrors([]);
+        setAlerts([]);
 
         if (!firstName && !lastName && !currentPassword && !newPassword && !confirmNewPassword && !profilePicture) {
-            setErrors([{type: 'failure', message: 'You must fill out at least one field'}]);
+            setAlerts([{type: 'failure', message: 'You must fill out at least one field'}]);
             return;
         }
 
         if ((currentPassword || newPassword || confirmNewPassword) && (!currentPassword || !newPassword || !confirmNewPassword)) {
-            setErrors([{type: 'failure', message: 'All password fields must be filled.'}]);
+            setAlerts([{type: 'failure', message: 'All password fields must be filled.'}]);
             return;
         }
 
         if (newPassword !== confirmNewPassword) {
-            setErrors([{type: 'failure', message: 'Passwords do not match'}]);
+            setAlerts([{type: 'failure', message: 'Passwords do not match'}]);
             return;
         }
 
@@ -63,14 +65,13 @@ function SettingsPage() {
 
         try {
             const token = localStorage.getItem('token'); // Retrieve the token from local storage
-            const response = await axios.post('http://localhost:8080/api/resource/updateuser', data, {
+            await axios.post('http://localhost:8080/api/resource/updateuser', data, {
                 headers: {
-                    'Authorization': `Bearer ${token}`, // Add the token to the headers
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });
 
-            // Clear the form fields and display a success message
             setFirstName('');
             setLastName('');
             setCurrentPassword('');
@@ -78,13 +79,12 @@ function SettingsPage() {
             setConfirmNewPassword('');
             setProfilePicture(null)
             setImagePreviewUrl(null);
-            setErrors([{ type: 'success', message: 'User updated successfully' }]);
+            setAlerts([{ type: 'success', message: 'User updated successfully' }]);
         } catch (error) {
-            // Display the error message from the backend
             if (error.response && error.response.data) {
-                setErrors([{ type: 'failure', message: error.response.data.message}]);
+                setAlerts([{ type: 'failure', message: error.response.data.message}]);
             } else {
-                setErrors([{ type: 'failure', message: 'An error occurred while updating the user' }]);
+                setAlerts([{ type: 'failure', message: 'An error occurred while updating the user' }]);
             }
         }
     };
@@ -94,7 +94,7 @@ function SettingsPage() {
         const maxFileSize = 1024 * 1024 * 2; // 2MB
 
         if (file.size > maxFileSize) {
-            setErrors([{ type: 'failure', message: 'File size exceeds the limit of 2MB'}]);
+            setAlerts([{ type: 'failure', message: 'File size exceeds the limit of 2MB'}]);
             return;
         }
 
@@ -114,42 +114,64 @@ function SettingsPage() {
             </Helmet>
             <Card title="Settings" className="w-full max-w-screen-md mx-auto z-10 animate-slide-in-bottom">
                 <form autoComplete="off" onSubmit={handleSubmit}>
-                    <Label>First Name:</Label>
-                    <TextInput type="text" value={firstName} onChange={e => setFirstName(e.target.value)}/>
+                    <div className="flex justify-between">
+                        <Breadcrumb aria-label="Solid background breadcrumb example"
+                                    className="bg-gray-50 py-3 dark:bg-gray-800">
+                            <Breadcrumb.Item icon={RiSettings4Fill}>
+                                Settings
+                            </Breadcrumb.Item>
+                            <Breadcrumb.Item>User Information</Breadcrumb.Item>
+                        </Breadcrumb>
+                        <Button type="submit" pill><FaSave  className="h-5 w-5"/></Button>
+                    </div>
 
-                    <Label>Last Name:</Label>
-                    <TextInput type="text" value={lastName} onChange={e => setLastName(e.target.value)}/>
+                    <div className="px-3">
+                        <Label>First Name:</Label>
+                        <TextInput placeholder="Enter your first name"  type="text" value={firstName} onChange={e => setFirstName(e.target.value)}/>
 
-                    <Label>Current Password:</Label>
-                    <TextInput type="password" value={currentPassword}
-                               onChange={e => setCurrentPassword(e.target.value)}/>
+                        <Label>Last Name:</Label>
+                        <TextInput placeholder="Enter your last name"  type="text" value={lastName} onChange={e => setLastName(e.target.value)}/>
 
-                    <Label>New Password:</Label>
-                    <TextInput type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)}/>
+                        <Label>Profile Picture:</Label>
+                        <ProfileImageInput imagePreviewUrl={imagePreviewUrl} onChange={handleFileChange}/>
+                    </div>
 
-                    <Label>Confirm New Password:</Label>
-                    <TextInput type="password" value={confirmNewPassword}
-                               onChange={e => setConfirmNewPassword(e.target.value)}/>
+                    <Breadcrumb aria-label="Solid background breadcrumb example"
+                                className="bg-gray-50 py-3 dark:bg-gray-800 pt-6">
+                        <Breadcrumb.Item icon={RiSettings4Fill}>
+                            Settings
+                        </Breadcrumb.Item>
+                        <Breadcrumb.Item>Account Security</Breadcrumb.Item>
+                    </Breadcrumb>
 
-                    <Label>Profile Picture:</Label>
-                    <ProfileImageInput imagePreviewUrl={imagePreviewUrl} onChange={handleFileChange}/>
+                    <div className="px-3">
+                        <Label>Current Password:</Label>
+                        <TextInput placeholder="Enter your current pasword"  type="password" value={currentPassword}
+                                   onChange={e => setCurrentPassword(e.target.value)}/>
 
-                    <Button type="submit" className="mt-4 w-full">Save Changes</Button>
+                        <Label>New Password:</Label>
+                        <TextInput placeholder="Enter your new password"  type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)}/>
+
+                        <Label>Confirm New Password:</Label>
+                        <TextInput placeholder="Re-enter your new password"  type="password" value={confirmNewPassword}
+                                   onChange={e => setConfirmNewPassword(e.target.value)}/>
+                    </div>
                 </form>
             </Card>
+
             <div className="absolute bottom-4 z-10 w-full flex flex-col items-center space-y-4">
-                {errors.map((error, index) => (
+                {alerts.map((alert, index) => (
                     <Alert
                         key={index}
-                        color={error.type}
+                        color={alert.type}
                         onDismiss={() => {
-                            const newErrors = [...errors];
-                            newErrors.splice(index, 1);
-                            setErrors(newErrors);
+                            const newAlerts = [...alerts];
+                            newAlerts.splice(index, 1);
+                            setAlerts(newAlerts);
                         }}
                         className="animate-zoom-in min-w-[350px]"
                     >
-                        {error.message || 'No message provided'}
+                        {alert.message || 'No message provided'}
                     </Alert>
                 ))}
             </div>

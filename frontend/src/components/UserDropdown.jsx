@@ -13,7 +13,7 @@ function UserDropdown({ user }) {
             arrowIcon={false}
             inline
             label={
-                <Avatar className="mr-4" alt="User" img={user && user.image ? `data:image/jpeg;base64,${user.image}` : "https://flowbite.com/docs/images/people/profile-picture-5.jpg"} rounded />
+                <Avatar className="mr-4" alt="o" img={user && user.image ? `data:image/jpeg;base64,${user.image}` : "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"} rounded />
             }
         >
             <Dropdown.Header>

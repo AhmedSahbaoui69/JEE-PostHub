@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar ,DarkThemeToggle, Flowbite} from "flowbite-react";
+import React, {useState, useEffect, createContext, useContext} from 'react';
+import { Navbar ,DarkThemeToggle, Flowbite, Dropdown} from "flowbite-react";
 import logo from '../logo.svg';
 import {Link, useLocation} from "react-router-dom";
 import UserDropdown from './UserDropdown';
 import axios from 'axios';
+import { UserContext } from '../App';
 
 function NavBar() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
-    const [user, setUser] = useState(null);
-    const location = useLocation();
+    const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -18,13 +18,10 @@ function NavBar() {
                 const response = await axios.get('http://localhost:8080/api/resource/userinfo', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                if (response.status === 200) {
-                    console.log(response.data);
-                    setUser(response.data);
-                    setIsAuthenticated(true);
-                }
-
+                setUser(response.data);
+                setIsAuthenticated(true);
             } catch (error) {
+                const token = null;
                 setIsAuthenticated(false);
             }
         };
@@ -40,16 +37,28 @@ function NavBar() {
     }, []);
     return (
         <Navbar fluid className="sticky top-0 z-50">
+
             <Navbar.Brand as={Link} to="/">
                 <img src={logo} className="h-6 sm:h-9" alt="Foo(rum); Logo" />
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Foo(rum);</span>
             </Navbar.Brand>
+
             <div className="flex md:order-2">
                 {isAuthenticated && <UserDropdown user={user} />}
                 {!isMobileView && <DarkThemeToggle />}
                 <Navbar.Toggle />
             </div>
+
             <Navbar.Collapse>
+                {isAuthenticated &&
+                    <Navbar.Link>
+                        <Dropdown label="Create"  inline>
+                            <Dropdown.Item >Post</Dropdown.Item>
+                            <Dropdown.Item  as={Link} to="/create-community">Community</Dropdown.Item>
+                        </Dropdown>
+                    </Navbar.Link>
+                }
+
                 <Flowbite>
                     {isMobileView && <DarkThemeToggle />}
                 </Flowbite>
