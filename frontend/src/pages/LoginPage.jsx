@@ -47,7 +47,7 @@ function LoginPage() {
                 <title>Login - Foorum</title>
             </Helmet>
 
-            <Card title="Login" className="w-full max-w-md z-10 animate-slide-in-bottom">
+            <Card title="Login" className="duration-300 delay-0 w-full max-w-md z-10 animate-slide-in-bottom">
                     <h2 className="text-4xl font-extrabold dark:text-white flex">Stay
                         <div className="flex pl-2">
                             <mark

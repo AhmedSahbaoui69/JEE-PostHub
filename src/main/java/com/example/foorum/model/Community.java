@@ -7,10 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Data
@@ -24,9 +23,19 @@ public class Community {
     private Long id;
     private String name;
     private String description;
-    @OneToMany(fetch = LAZY)
-    private List<Post> posts = new ArrayList<>();
     private Instant createdDate;
-    @ManyToOne(fetch = LAZY)
-    private User user;
+
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Post> posts = new HashSet<>();
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CommunityFollow> followers = new HashSet<>();
+
 }

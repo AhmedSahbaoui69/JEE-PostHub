@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findAllByGroup(Community group);
-    List<Post> findByUser(User user);
+    List<Post> findAllByCommunity(Community community);
+    List<Post> findByCreator(User user);
 }

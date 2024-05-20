@@ -10,7 +10,9 @@ import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import CreateCommunityPage from "./pages/CreateCommunityPage";
 import axios from 'axios';
-import FooterBar from "./components/FooterBar";
+import CommunityPage from "./pages/CommunityPage";
+import FollowedCommunitiesPage from "./pages/FollowedCommunitiesPage";
+import MyCommunitiesPage from "./pages/MyCommunitiesPage";
 
 export const UserContext = createContext({
     user: null,
@@ -39,7 +41,7 @@ function App() {
     return (
         <Router>
             <UserContext.Provider value={{user, setUser}}>
-                <div className="flex flex-col h-screen">
+                <div className="flex flex-col h-auto md:h-screen">
                     <HelmetProvider>
                         <Helmet>
                             <title>Foorum</title>
@@ -53,9 +55,11 @@ function App() {
                             <Route path="/login" element={<LoginPage/>}/>
                             <Route path="/settings" element={<SettingsPage/>}/>
                             <Route path="/create-community" element={<CreateCommunityPage/>}/>
+                            <Route path="/community/:id" element={<CommunityPage/>}/>
+                            <Route path="/followedcommunities/" element={<FollowedCommunitiesPage/>}/>
+                            <Route path="/mycommunities/" element={<MyCommunitiesPage/>}/>
                             <Route path="*" element={<NotFoundPage/>}/>
                         </Routes>
-                        <FooterBar/>
                     </HelmetProvider>
                 </div>
             </UserContext.Provider>

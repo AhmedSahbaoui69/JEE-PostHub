@@ -20,11 +20,14 @@ public class Post {
     @Lob
     private String description;
     private Integer voteCount = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "id")
-    private User user;
+    private User creator;
+
     private Instant createdDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private Community group;
+    @JoinColumn(name = "community_id")
+    private Community community;
 }

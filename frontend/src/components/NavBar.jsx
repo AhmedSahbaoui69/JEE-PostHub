@@ -10,6 +10,7 @@ function NavBar() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
     const { user, setUser } = useContext(UserContext);
+    const location = useLocation();
 
     useEffect(() => {
         const checkAuthentication = async () => {
@@ -36,7 +37,7 @@ function NavBar() {
         return () => window.removeEventListener("resize", checkMobileView);
     }, []);
     return (
-        <Navbar fluid className="sticky top-0 z-50">
+        <Navbar fluid className="duration-300 delay-0 sticky top-0 z-50">
 
             <Navbar.Brand as={Link} to="/">
                 <img src={logo} className="h-6 sm:h-9" alt="Foo(rum); Logo" />
@@ -51,12 +52,17 @@ function NavBar() {
 
             <Navbar.Collapse>
                 {isAuthenticated &&
-                    <Navbar.Link>
-                        <Dropdown label="Create"  inline>
-                            <Dropdown.Item >Post</Dropdown.Item>
-                            <Dropdown.Item  as={Link} to="/create-community">Community</Dropdown.Item>
-                        </Dropdown>
-                    </Navbar.Link>
+                    <>
+                        <Navbar.Link>
+                            <Dropdown label="Create"  inline>
+                                <Dropdown.Item >Post</Dropdown.Item>
+                                <Dropdown.Item  as={Link} to="/create-community">Community</Dropdown.Item>
+                            </Dropdown>
+                        </Navbar.Link>
+                        <Navbar.Link active={location.pathname === '/followedcommunities'} as={Link} to="/followedcommunities">
+                            <p>Followed Communities</p>
+                        </Navbar.Link>
+                    </>
                 }
 
                 <Flowbite>

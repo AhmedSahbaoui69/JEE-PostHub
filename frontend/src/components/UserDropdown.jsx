@@ -19,6 +19,7 @@ function UserDropdown({ user }) {
             <Dropdown.Header>
                 <span className="block">{user ? user.email : "Loading..."}</span>
             </Dropdown.Header>
+            <Dropdown.Item as={Link} to="/mycommunities">My Communities</Dropdown.Item>
             <Dropdown.Item as={Link} to="/settings">Settings</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleSignOut}>Sign out</Dropdown.Item>

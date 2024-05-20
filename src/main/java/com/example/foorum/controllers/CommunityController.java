@@ -36,15 +36,33 @@ public class CommunityController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<CommunityResponse>> getAllCommunities() {
-        var communities = communityService.getAllCommunities();
+    @GetMapping("/followed")
+    public ResponseEntity<List<CommunityResponse>> getUserFollowedCommunities() {
+        var communities = communityService.getUserFollowedCommunities();
         return ResponseEntity.ok(communities);
     }
+
+    @GetMapping("/created")
+    public ResponseEntity<List<CommunityResponse>> getUserCreatedCommunities() {
+        var communities = communityService.getAllCreatedByUserCommunities();
+        return ResponseEntity.ok(communities);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CommunityResponse> getCommunityById(@PathVariable Long id) {
         var community = communityService.getCommunityById(id);
         return ResponseEntity.ok(community);
+    }
+
+    @GetMapping("/{id}/isFollowed")
+    public ResponseEntity<Boolean> isCommunityFollowed(@PathVariable Long id) {
+        boolean isFollowed = communityService.isCommunityFollowed(id);
+        return ResponseEntity.ok(isFollowed);
+    }
+    @PostMapping("/{id}/toggleFollow")
+    public ResponseEntity<Boolean> toggleFollow(@PathVariable Long id) {
+        boolean toggled =  communityService.toggleFollow(id);
+        return ResponseEntity.ok(toggled);
     }
 }

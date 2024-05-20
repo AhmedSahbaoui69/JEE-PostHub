@@ -12,7 +12,13 @@ public interface CommunityService {
 
     void deleteCommunity(Long id);
 
-    List<CommunityResponse> getAllCommunities();
-
     CommunityResponse getCommunityById(Long id);
-}
+
+    boolean isCommunityFollowed(Long communityId);
+
+    boolean toggleFollow(Long communityId);
+
+    List<CommunityResponse> getUserFollowedCommunities();
+
+     List<CommunityResponse> getAllCreatedByUserCommunities();
+    }

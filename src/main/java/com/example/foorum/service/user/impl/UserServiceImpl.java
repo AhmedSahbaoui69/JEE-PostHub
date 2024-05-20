@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserDtoResponse getAuthenticatedUser() {
         Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
-
         User currentUser = (User) userAuth.getPrincipal();
+
 
         return UserDtoResponse.builder()
                 .firstName(currentUser.getFirstName())

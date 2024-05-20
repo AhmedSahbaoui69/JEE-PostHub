@@ -112,7 +112,7 @@ function SettingsPage() {
             <Helmet>
                 <title>Login - Settings</title>
             </Helmet>
-            <Card title="Settings" className="w-full max-w-screen-md mx-auto z-10 animate-slide-in-bottom">
+            <Card title="Settings" className="duration-300 delay-0 w-full max-w-screen-md mx-auto z-10 animate-slide-in-bottom">
                 <form autoComplete="off" onSubmit={handleSubmit}>
                     <div className="flex justify-between">
                         <Breadcrumb aria-label="Solid background breadcrumb example"

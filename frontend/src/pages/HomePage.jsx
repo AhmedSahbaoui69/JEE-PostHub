@@ -9,7 +9,7 @@ const Home = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center h-full ">
+        <div className="duration-300 delay-0 flex flex-col items-center justify-center h-full ">
             <div className="max-w-screen-lg p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16">
                     <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome to  <mark
