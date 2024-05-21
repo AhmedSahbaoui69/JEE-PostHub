@@ -59,6 +59,7 @@ function  Post ({user, date, title, content, votes, postId}) {
 
                 <div className="flex flex-row items-cente r">
                     <Button className="p-0 w-9" color="success" pill onClick={handleUpvote}>
+
                         <BiSolidUpvote/>
                     </Button>
                     <Button className="mx-2 p-0 w-9" color="failure" pill onClick={handleDownvote}>
