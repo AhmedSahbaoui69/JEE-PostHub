@@ -55,7 +55,9 @@ function  Post ({user, date, title, content, votes, postId}) {
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h2>
                 <p className="text-sm font-normal py-2.5  text-gray-500 dark:text-gray-400">{content}</p>
 
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row justify-between">
+
+                <div className="flex flex-row items-cente r">
                     <Button className="p-0 w-9" color="success" pill onClick={handleUpvote}>
                         <BiSolidUpvote/>
                     </Button>
@@ -65,7 +67,7 @@ function  Post ({user, date, title, content, votes, postId}) {
                     <span className="text-sm font-normal text-gray-500 dark:text-gray-400">{votes || 0} votes</span>
                 </div>
 
-                <div>
+                <div >
                     <Dropdown label="" dismissOnClick={false}
                               renderTrigger={() => <button id="dropdownMenuIconButton"
                                                            data-dropdown-toggle="dropdownDots"
@@ -87,6 +89,7 @@ function  Post ({user, date, title, content, votes, postId}) {
                                className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
                         </Dropdown.Item>
                     </Dropdown>
+                </div>
                 </div>
             </div>
 </div>
