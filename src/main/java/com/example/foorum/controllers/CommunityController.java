@@ -19,7 +19,8 @@ public class CommunityController {
     private final CommunityService communityService;
 
     @PostMapping
-    public ResponseEntity<CommunityResponse> createCommunity(@Valid @RequestBody CommunityRequest communityRequest) {
+    public ResponseEntity<CommunityResponse> createCommunity(
+            @RequestBody CommunityRequest communityRequest) {
         var community = communityService.createCommunity(communityRequest);
         return ResponseEntity.ok(community);
     }

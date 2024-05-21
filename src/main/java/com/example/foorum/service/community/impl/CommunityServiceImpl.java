@@ -8,9 +8,11 @@ import com.example.foorum.model.CommunityFollow;
 import com.example.foorum.model.User;
 import com.example.foorum.repository.CommunityFollowRepository;
 import com.example.foorum.repository.CommunityRepository;
+import com.example.foorum.repository.PostRepository;
 import com.example.foorum.service.community.CommunityService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.NonUniqueResultException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class CommunityServiceImpl implements CommunityService {
     private final CommunityRepository communityRepository;
     private final CommunityFollowRepository communityFollowRepository;
+    private final PostRepository postRepository;
 
     @Override
     public CommunityResponse createCommunity(CommunityRequest communityRequest) {
@@ -96,11 +99,17 @@ public class CommunityServiceImpl implements CommunityService {
         );
     }
 
+    @Transactional
     @Override
-    public void deleteCommunity(Long id) {
+    public ResponseEntity<Void> deleteCommunity(Long id) {
         Community community = communityRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Community not found"));
+
+        communityFollowRepository.deleteByCommunityId(id);
+        postRepository.deleteByCommunityId(id);
+
         communityRepository.delete(community);
+        return ResponseEntity.ok().build();
     }
 
     @Override

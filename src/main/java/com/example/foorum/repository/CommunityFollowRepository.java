@@ -30,4 +30,9 @@ public interface CommunityFollowRepository extends JpaRepository<CommunityFollow
     @Transactional
     @Query("DELETE FROM CommunityFollow cf WHERE cf.user.id = :userId AND cf.community.id = :communityId")
     void deleteByUserIdAndCommunityId(@Param("userId") Long userId, @Param("communityId") Long communityId);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM CommunityFollow cf WHERE cf.community.id = :communityId")
+    void deleteByCommunityId(@Param("communityId") Long communityId);
 }

@@ -2,6 +2,7 @@ package com.example.foorum.service.community;
 
 import com.example.foorum.dto.request.CommunityRequest;
 import com.example.foorum.dto.response.CommunityResponse;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface CommunityService {
 
     CommunityResponse updateCommunity(Long id, CommunityRequest communityRequest);
 
-    void deleteCommunity(Long id);
+     ResponseEntity<Void> deleteCommunity(Long id) ;
 
     CommunityResponse getCommunityById(Long id);
 

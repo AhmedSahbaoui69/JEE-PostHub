@@ -165,6 +165,7 @@ function CommunityPage() {
                             title={post.postTitle}
                             content={post.description}
                             votes={post.voteCount}
+                            postId={post.id}
                         />
                     ))}
                 </div>
