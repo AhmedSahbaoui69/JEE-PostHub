@@ -1,6 +1,5 @@
 package com.example.foorum.service.community.impl;
 
-import com.example.foorum.controllers.CommunityController;
 import com.example.foorum.dto.request.CommunityRequest;
 import com.example.foorum.dto.response.CommunityResponse;
 import com.example.foorum.exceptions.SpringFoorumException;
@@ -9,7 +8,6 @@ import com.example.foorum.model.CommunityFollow;
 import com.example.foorum.model.User;
 import com.example.foorum.repository.CommunityFollowRepository;
 import com.example.foorum.repository.CommunityRepository;
-import com.example.foorum.repository.UserRepository;
 import com.example.foorum.service.community.CommunityService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.NonUniqueResultException;
@@ -18,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.net.ssl.SSLSession;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
@@ -167,9 +164,5 @@ public class CommunityServiceImpl implements CommunityService {
                         community.getCreator().getEmail()
                 ))
                 .collect(Collectors.toList());
-    }
-
-    public List<User> getFollowersByCommunity(Long communityId) {
-        return communityFollowRepository.findAllFollowersByCommunityId(communityId);
     }
 }

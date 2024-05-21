@@ -4,6 +4,7 @@ import {Card, Label, TextInput, Button, Alert, Checkbox} from 'flowbite-react';
 import { FcGlobe } from "react-icons/fc";
 import {Helmet} from "react-helmet-async";
 import {Link} from "react-router-dom";
+import {HiMail} from "react-icons/hi";
 
 function RegisterPage() {
     const token = localStorage.getItem('token');
@@ -66,7 +67,7 @@ function RegisterPage() {
                         <TextInput type="text" placeholder="Enter your last name" value={lastName}
                                    onChange={e => setLastName(e.target.value)}/>
                         <Label>Email:</Label>
-                        <TextInput type="email" placeholder="Enter your email" value={email}
+                        <TextInput type="email" rightIcon={HiMail}  placeholder="Enter your email" value={email}
                                    onChange={e => setEmail(e.target.value)}/>
                         <Label>Password:</Label>
                         <TextInput type="password" placeholder="Enter your password" value={password}

@@ -1,7 +1,8 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {Helmet} from "react-helmet-async";
-import {Alert, Card} from "flowbite-react";
+import {Button, Card} from "flowbite-react";
+import { IoMdCheckmark } from "react-icons/io";
 
 function FollowedCommunitiesPage() {
     const [communities, setCommunities] = useState([]);
@@ -41,7 +42,12 @@ function FollowedCommunitiesPage() {
                 {communities.map((community) => (
                     <Card href={`/community/${community.id}`} key={community.id}
                           className="h-fit transition ease-in-out duration-300 delay-0" title={community.name}>
-                            <h2 className="text-4xl h-12 font-extrabold dark:text-white">{community.name}</h2>
+                        <div className="flex flex-row items-center justify-between  h-12">
+                            <h2 className=" text-4xl h-12 font-extrabold dark:text-white">{community.name}</h2>
+                            <Button className="p-0 w-10" gradientMonochrome="teal" pill>
+                                <IoMdCheckmark className="w-5 h-5"/>
+                            </Button>
+                        </div>
                         <p className="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{community.description}</p>
                         <div
                             className="max-h-[200px] max-w-[400px] flex justify-center mt-4 border border-gray-200 rounded-lg">

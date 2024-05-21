@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { MdDateRange, MdPostAdd, MdOutlineSearch } from "react-icons/md";
 import { FaRegUserCircle, FaSort } from "react-icons/fa"
 import { RiShieldUserLine } from "react-icons/ri";
-import {Button, Dropdown, Spinner} from "flowbite-react";
+import { Button, Dropdown, Spinner } from "flowbite-react";
 import Post from "../components/Post";
-
 
 function CommunityPage() {
     const { id } = useParams();
     const [community, setCommunity] = useState(null);
+    const [posts, setPosts] = useState([]);
     const [isFollowed, setIsFollowed] = useState(false);
     const token = localStorage.getItem('token');
     if (!token) {
@@ -24,6 +24,15 @@ function CommunityPage() {
                 setCommunity(response.data);
             } catch (error) {
                 console.error('Failed to fetch community', error);
+            }
+        };
+
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/posts/community/${id}`);
+                setPosts(response.data);
+            } catch (error) {
+                console.error('Failed to fetch posts', error);
             }
         };
 
@@ -42,6 +51,7 @@ function CommunityPage() {
         };
 
         fetchCommunity();
+        fetchPosts();
         checkFollowStatus();
     }, [id]);
 
@@ -122,7 +132,7 @@ function CommunityPage() {
             >
                 <div
                     className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 px-6 py-6">
-                <div className="w-full md:w-1/2">
+                    <div className="w-full md:w-1/2">
                         <form className="flex items-center">
                             <label htmlFor="simple-search" className="sr-only">Search</label>
                             <div className="relative w-full">
@@ -147,12 +157,16 @@ function CommunityPage() {
                 </div>
 
                 <div className="w-full h-screen overflow-y-scroll px-6 ">
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                    <Post/>
+                    {posts.slice().reverse().map((post) => (
+                        <Post
+                            key={post.id}
+                            user={post.user}
+                            date={post.createdDate}
+                            title={post.postTitle}
+                            content={post.description}
+                            votes={post.voteCount}
+                        />
+                    ))}
                 </div>
             </div>
         </div>

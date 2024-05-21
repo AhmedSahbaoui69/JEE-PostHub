@@ -13,6 +13,7 @@ import axios from 'axios';
 import CommunityPage from "./pages/CommunityPage";
 import FollowedCommunitiesPage from "./pages/FollowedCommunitiesPage";
 import MyCommunitiesPage from "./pages/MyCommunitiesPage";
+import CreatePostPage from "./pages/CreatePostPage";
 
 export const UserContext = createContext({
     user: null,
@@ -54,6 +55,7 @@ function App() {
                             <Route path="/register" element={<RegisterPage/>}/>
                             <Route path="/login" element={<LoginPage/>}/>
                             <Route path="/settings" element={<SettingsPage/>}/>
+                            <Route path="/create-post" element={<CreatePostPage/>}/>
                             <Route path="/create-community" element={<CreateCommunityPage/>}/>
                             <Route path="/community/:id" element={<CommunityPage/>}/>
                             <Route path="/followedcommunities/" element={<FollowedCommunitiesPage/>}/>

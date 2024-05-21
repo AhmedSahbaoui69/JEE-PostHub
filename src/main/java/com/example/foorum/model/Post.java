@@ -16,7 +16,6 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
     private String postTitle;
-    private String url;
     @Lob
     private String description;
     private Integer voteCount = 0;

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Card, Label, TextInput, Button, Alert } from 'flowbite-react';
 import {Helmet} from "react-helmet-async";
 import {Link} from "react-router-dom";
+import {HiMail} from "react-icons/hi";
 
 function LoginPage() {
     const token = localStorage.getItem('token');
@@ -63,7 +64,7 @@ function LoginPage() {
 
                 <form onSubmit={handleSubmit}>
                     <Label>Email:</Label>
-                    <TextInput type="email" placeholder="Enter your email" value={email} onChange={e => setEmail(e.target.value)}/>
+                    <TextInput type="email" placeholder="Enter your email"  rightIcon={HiMail} value={email} onChange={e => setEmail(e.target.value)}/>
                     <Label>Password:</Label>
                     <TextInput type="password" placeholder="Enter your password" value={password} onChange={e => setPassword(e.target.value)}/>
                     <Button type="submit" className="mt-4 w-full">

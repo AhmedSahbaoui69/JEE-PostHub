@@ -1,4 +1,4 @@
-import React, {useState, useEffect, createContext, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Navbar ,DarkThemeToggle, Flowbite, Dropdown} from "flowbite-react";
 import logo from '../logo.svg';
 import {Link, useLocation} from "react-router-dom";
@@ -22,7 +22,6 @@ function NavBar() {
                 setUser(response.data);
                 setIsAuthenticated(true);
             } catch (error) {
-                const token = null;
                 setIsAuthenticated(false);
             }
         };
@@ -55,7 +54,7 @@ function NavBar() {
                     <>
                         <Navbar.Link>
                             <Dropdown label="Create"  inline>
-                                <Dropdown.Item >Post</Dropdown.Item>
+                                <Dropdown.Item as={Link} to="/create-post" >Post</Dropdown.Item>
                                 <Dropdown.Item  as={Link} to="/create-community">Community</Dropdown.Item>
                             </Dropdown>
                         </Navbar.Link>
